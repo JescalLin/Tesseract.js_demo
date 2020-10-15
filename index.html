@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset=" UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.rawgit.com/naptha/tesseract.js/1.0.10/dist/tesseract.js"></script>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>JavaScript test</title>
+</head>
+
+<body>
+    <img id="capture1" src="004.jpg">
+    <input id="res"></input>
+	</div>
+    <script>
+        var file = $("#capture1").attr("src");
+        Tesseract.recognize(file)
+            .then(function(result){
+                $("#res").attr("value",result.text);
+                console.log(result);
+            })
+            .catch(function(err){
+                console.error(err);
+            });
+    </script>
+</body>
+
+</html>
