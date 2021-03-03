@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+    <meta charset=" UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>JavaScript test</title>
+</head>
+
+<body>
+
+
+
+    <form runat="server1">
+        <p>說明書:</p>
+        <input type='file' id="imgInp1" />
+        <br>
+        <img style="display: none;" id="blah1" src="#" alt="說明書批號" />
+        <input id="res1"></input>
+        <br>
+    </form>
+
+    <form runat="server2">
+        <p>彩盒:</p>
+        <input type='file' id="imgInp2" />
+        <br>
+        <img style="display: none;" id="blah2" src="#" alt="彩盒批號" />
+        <input id="res2"></input>
+        <br>
+    </form>
+
+    <form runat="server3">
+        <p>裸片:</p>
+        <input type='file' id="imgInp3" />
+        <br>
+        <img style="display: none;" id="blah3" src="#" alt="裸片批號" />
+        <input id="res3"></input>
+        <br>
+
+    </form>
+    <br>
+    <br>
+    <input type="button" onclick="ocr()" value="辨識"></input>
+
+    <script>
+
+        function readURL1(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah1').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+
+            }
+
+        }
+
+        function readURL2(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah2').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string
+            }
+        }
+
+        function readURL3(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah3').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]); // convert to base64 string'
+            }
+        }
+
+
+        $("#imgInp1").change(function () {
+            readURL1(this);
+            document.getElementById('blah1').style.display = 'block'
+        });
+        $("#imgInp2").change(function () {
+            readURL2(this);
+            document.getElementById('blah2').style.display = 'block'
+        });
+        $("#imgInp3").change(function () {
+            readURL3(this);
+            document.getElementById('blah3').style.display = 'block'
+        });
+
+
+        function ocr() {
+
+            var file1 = $("#blah1").attr("src");
+            Tesseract.recognize(
+                file1,
+                'eng',
+                { logger: m => console.log(m) }
+            ).then(({ data: { text } }) => {
+                $("#res1").attr("value", text);;
+            })
+
+            
+            var file2 = $("#blah2").attr("src");
+            Tesseract.recognize(
+                file2,
+                'eng',
+                { logger: m => console.log(m) }
+            ).then(({ data: { text } }) => {
+                $("#res2").attr("value", text);;
+            })
+
+            
+            var file3 = $("#blah3").attr("src");
+            Tesseract.recognize(
+                file3,
+                'eng',
+                { logger: m => console.log(m) }
+            ).then(({ data: { text } }) => {
+                $("#res3").attr("value", text);;
+            })
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
